@@ -1,4 +1,4 @@
-const apiKey = '0f837cd0113fbb4d15021006c10435a2'; // Replace with your actual API key
+const apiKey = '0f837cd0113fbb4d15021006c10435a2';
 const searchBtn = document.getElementById('search-btn');
 const backBtn = document.getElementById('back-btn');
 const cityInput = document.getElementById('city-input');
@@ -8,7 +8,7 @@ const searchHistory = document.getElementById('search-history');
 const searchSection = document.getElementById('search-section');
 const weatherSection = document.getElementById('weather-section');
 
-// Event listener for search button
+
 searchBtn.addEventListener('click', () => {
     const city = cityInput.value;
     if (city) {
@@ -17,13 +17,6 @@ searchBtn.addEventListener('click', () => {
     }
 });
 
-// Event listener for back button
-backBtn.addEventListener('click', () => {
-    searchSection.classList.remove('hidden');
-    weatherSection.classList.add('hidden');
-});
-
-// Fetch weather data
 async function getWeather(city) {
     try {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`);
@@ -37,7 +30,6 @@ async function getWeather(city) {
     }
 }
 
-// Display current weather
 function displayCurrentWeather(data) {
     const city = data.city.name;
     const current = data.list[0];
@@ -52,7 +44,6 @@ function displayCurrentWeather(data) {
     currentWeather.innerHTML = weatherHTML;
 }
 
-// Display 5-day forecast
 function displayForecast(data) {
     let forecastHTML = '<h2>5-Day Forecast</h2>';
     for (let i = 0; i < data.list.length; i += 8) {
@@ -70,7 +61,6 @@ function displayForecast(data) {
     forecast.innerHTML = forecastHTML;
 }
 
-// Add to search history and save to localStorage
 function addToSearchHistory(city) {
     let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
     if (!history.includes(city)) {
@@ -80,11 +70,9 @@ function addToSearchHistory(city) {
     }
 }
 
-// Display search history
 function displaySearchHistory() {
     let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
     searchHistory.innerHTML = history.map(city => `<button onclick="getWeather('${city}')">${city}</button>`).join('');
 }
 
-// Load search history on page load
 window.onload = displaySearchHistory;
